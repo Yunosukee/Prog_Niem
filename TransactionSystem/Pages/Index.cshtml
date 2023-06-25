@@ -1,0 +1,49 @@
+﻿@page
+@model TransactionSystem.Pages.IndexModel
+@{
+    ViewData["Title"] = "Logowanie";
+}
+
+<h1>Logowanie</h1>
+
+<form method="post">
+    <div>
+        <label for="Username">Adres Email:</label>
+        <input asp-for="User.Email" />
+    </div>
+    <div>
+        <label for="Password">Hasło:</label>
+        <input asp-for="User.Password" type="password" />
+    </div>
+    <div>
+        <button type="submit" asp-page-handler="LogIn">Zaloguj</button>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        @if (!ViewData.ModelState.IsValid)
+        {
+            // Jeśli ModelState zawiera błędy, wywołaj funkcję do wyświetlenia popupa
+            <text>
+                $(document).ready(function () {
+                    showErrorPopup(htmlDecode("@ViewData.ModelState[""].Errors[0].ErrorMessage"));
+                });
+
+            function htmlDecode(input) {
+                var doc = new DOMParser().parseFromString(input, "text/html");
+                return doc.documentElement.textContent;
+            }
+
+            function showErrorPopup(errorMessage) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Chuj',
+                    html: errorMessage,
+                    confirmButtonText: 'OK'
+                });
+            }
+            </text>
+        }
+    </script>
+}
