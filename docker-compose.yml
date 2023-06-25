@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  transactionsystem:
+    image: ${DOCKER_REGISTRY-}transactionsystem
+    build:
+      context: .
+      dockerfile: TransactionSystem/Dockerfile
