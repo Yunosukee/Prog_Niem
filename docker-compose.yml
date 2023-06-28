@@ -3,6 +3,8 @@ version: '3.4'
 services:
   transactionsystem:
     image: ${DOCKER_REGISTRY-}transactionsystem
+    ports:
+      - 32769:80
     build:
       context: .
       dockerfile: TransactionSystem/Dockerfile
