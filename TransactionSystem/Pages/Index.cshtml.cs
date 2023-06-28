@@ -1,19 +1,56 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Net.Http;
+using TransactionSystem.Controlers;
 
 namespace TransactionSystem.Pages
 {
+
     public class IndexModel : PageModel
     {
         [BindProperty]
         public User User { get; set; }
 
-        public IActionResult OnPostLogIn()
+        
+        public LoginController loginController = new LoginController();
+        private string userEmail;
+        private string userPassword;
+        private string userName;
+
+
+        public async Task<IActionResult> OnPostLogIn()
         {
-            // Sprawdzenie poprawności danych logowania
-            if (User.Email == "admin" && User.Password == "admin")
+            if(User.Email == null)
             {
-                HttpContext.Session.SetString("Username", User.Email);
+                ModelState.AddModelError(string.Empty, "Drugi chuj.");
+                return Page();
+            }
+
+            if(User.Email == "admin" && User.Password == "admin")
+            {
+                HttpContext.Session.SetString("Admin", "true");
+                HttpContext.Session.SetString("Username", "admin");
+                return RedirectToPage("./Transactions");
+            }
+
+            User LoginUser = await loginController.LogIn(User.Email);
+            
+            if (LoginUser == null)
+            {
+                ModelState.AddModelError(string.Empty, "Drugi chuj.");
+                return Page();
+            }
+            else
+            {
+                User firstUser = LoginUser;
+                userName = firstUser.Name;
+                userEmail = firstUser.Email;
+                userPassword = firstUser.Password;
+            }
+
+            if (User.Email == userEmail && User.Password == userPassword)
+            {
+                HttpContext.Session.SetString("Username", userName);
                 return RedirectToPage("./Transactions");
             }
             else

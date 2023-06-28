@@ -1,0 +1,22 @@
+﻿@page
+@model TransactionSystem.Pages.Admin.AddUserModel
+
+<h2>Dodaj użytkownika</h2>
+
+<form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="User.Name">Imię:</label>
+        <input asp-for="User.Name" class="form-control" />
+        <span asp-validation-for="User.Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="User.Email">Email:</label>
+        <input asp-for="User.Email" class="form-control" />
+        <span asp-validation-for="User.Email" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Dodaj</button>
+</form>

@@ -15,7 +15,7 @@ namespace TransactionSystem
             services.AddSession(options =>
             {
                 options.Cookie.Name = "NazwaSesji";
-                options.IdleTimeout = System.TimeSpan.FromMinutes(1);
+                options.IdleTimeout = System.TimeSpan.FromMinutes(30);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
