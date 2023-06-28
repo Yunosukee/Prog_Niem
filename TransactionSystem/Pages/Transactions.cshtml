@@ -1,0 +1,32 @@
+﻿@page
+@model TransactionSystem.Pages.TransactionsModel
+@{
+    ViewData["Title"] = "Transakcje";
+}
+
+<h1>Witaj, @Model.Username!</h1>
+
+<h2>Dodaj nową transakcję</h2>
+
+<form method="post">
+    <div>
+        <label for="Product">Produkt:</label>
+        <select asp-for="Transaction.Product" asp-items="@new SelectList(DataStore.Products)"></select>
+    </div>
+    <div>
+        <label for="Quantity">Ilość:</label>
+        <input asp-for="Transaction.Quantity" />
+    </div>
+    <div>
+        <button type="submit">Dodaj transakcję</button>
+    </div>
+</form>
+
+<h2>Lista produktów</h2>
+
+<ul>
+    @foreach (var transaction in DataStore.Transactions)
+    {
+        <li>@transaction.Product - @transaction.Quantity</li>
+    }
+</ul>

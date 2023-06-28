@@ -22,7 +22,7 @@ namespace TransactionSystem.Pages
         {
             if(User.Email == null)
             {
-                ModelState.AddModelError(string.Empty, "Drugi chuj.");
+                ModelState.AddModelError(string.Empty, "Wprowadz dane użytkownika.");
                 return Page();
             }
 
@@ -30,14 +30,14 @@ namespace TransactionSystem.Pages
             {
                 HttpContext.Session.SetString("Admin", "true");
                 HttpContext.Session.SetString("Username", "admin");
-                return RedirectToPage("./Transactions");
+                return RedirectToPage("./AdminPanel");
             }
 
             User LoginUser = await loginController.LogIn(User.Email);
             
             if (LoginUser == null)
             {
-                ModelState.AddModelError(string.Empty, "Drugi chuj.");
+                ModelState.AddModelError(string.Empty, "Nie znaleziono użytkownika.");
                 return Page();
             }
             else
@@ -55,7 +55,7 @@ namespace TransactionSystem.Pages
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Drugi chuj.");
+                ModelState.AddModelError(string.Empty, "Chuj.");
                 return Page();
             }
         }
