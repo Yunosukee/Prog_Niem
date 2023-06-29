@@ -37,7 +37,7 @@ namespace TransactionSystem.Pages.Admin
 
             await userController.AddUser(customer);
 
-            return Page();
+            return RedirectToPage("/AddUser");
         }
 
         public async Task<IActionResult> OnPostDelete(string Id)
