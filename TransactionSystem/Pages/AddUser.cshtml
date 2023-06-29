@@ -11,7 +11,6 @@
     <label for="Email" class="form-label">Email:</label>
     <input type="text" class="form-control" id="Email" asp-for="customer.Email">
 
-
     <label for="Phone" class="form-label">Telefon:</label>
     <input type="text" class="form-control" id="Phone" asp-for="customer.Phone">
 
@@ -32,6 +31,7 @@
             <th>Id</th>
             <th>Imie</th>
             <th>Telefon</th>
+            <th>Email</th>
             <th>Hasło</th>
             <th>Usuń</th>
             <th>Edytuj</th>
@@ -44,6 +44,7 @@
                 <td>@user.Id</td>
                 <td>@user.Name</td>
                 <td>@user.Phone</td>
+                <td>@user.Email</td>
                 <td>@user.Password</td>
                 <td>
                     <form method ="post" asp-page-handler="Delete">

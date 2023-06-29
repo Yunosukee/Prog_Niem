@@ -1,24 +1,46 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-
+using TransactionSystem.Controllers;
 
 namespace TransactionSystem.Pages
 {
     public class AddProductModel : PageModel
     {
+        public ProductController productController = new ProductController();
 
         [BindProperty]
-        public Product Product { get; set; }
+        public Product product { get; set; }
 
-        public IActionResult OnGet()
+        public List<ProductWithID> products { get; set; }
+
+        public async Task<IActionResult> OnGet()
         {
-            return Page();
+            products = await productController.GetProducts();
+
+            if (HttpContext.Session.GetString("Admin") != null)
+            {
+                // Jeœli u¿ytkownik nie jest zalogowany, przekierowanie na stronê logowania
+
+                return Page();
+            }
+            else
+            {
+                return RedirectToPage("./Index");
+            }
         }
 
-        public IActionResult OnPost()
-        {
 
-            return Page();
+        public async Task<IActionResult> OnPostAddProduct(Product product)
+        {
+            await productController.AddProduct(product);
+
+            return RedirectToPage("/AddProduct");
+        }
+        public async Task<IActionResult> OnPostDelete(string Id)
+        {
+            int number = int.Parse(Id);
+            await productController.DeleteProductWithId(number);
+            return RedirectToPage();
         }
     }
 }

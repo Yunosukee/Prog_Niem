@@ -2,5 +2,5 @@
 {
     public static List<User> Users { get; set; } = new List<User>();
     public static List<Transaction> Transactions { get; set; } = new List<Transaction>();
-    public static List<string> Products { get; set; } = new List<string> { "Produkt 1", "Produkt 2", "Produkt 3" };
+    public static List<ProductWithID> Products { get; set; } = new List<ProductWithID>();
 }

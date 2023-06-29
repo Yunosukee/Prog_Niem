@@ -8,25 +8,77 @@
 
 <h2>Dodaj nową transakcję</h2>
 
-<form method="post">
+<form method="post" asp-page-handler="AddTransaction">
+<div class="form-group">
+    <label asp-for="transactions.Product_id" class="control-label"></label>
+    <select asp-for="transactions.Product_id" class="form-control">
+        <option value="">-- Wybierz --</option>
+        @foreach (var obj in Model.products)
+        {
+            <option value="@obj.Id">@obj.Name</option>
+        }
+    </select>
+</div>
+<div class="form-group">
+    <label asp-for="transactions.Customer_id" class="control-label"></label>
+    <select asp-for="transactions.Customer_id" class="form-control">
+        <option value="">-- Wybierz --</option>
+        @foreach (var obj in Model.users)
+        {
+            <option value="@obj.Id">@obj.Name</option>
+        }
+    </select>
+</div>
     <div>
-        <label for="Product">Produkt:</label>
-        <select asp-for="Transaction.Product" asp-items="@new SelectList(DataStore.Products)"></select>
+        <label for="transactions.Quantity" class="control-label">Ilość:</label>
+        <input asp-for="transactions.Quantity" class="form-control"/>
     </div>
     <div>
-        <label for="Quantity">Ilość:</label>
-        <input asp-for="Transaction.Quantity" />
+    @{
+        DateTime currentTimeUtc = DateTime.UtcNow;
+        DateTime currentTimeWithOffset = currentTimeUtc.AddHours(2);
+        string currentTimeWithOffsetString = currentTimeWithOffset.ToString("yyyy-MM-ddTHH:mm:ssZ");
+    }
+    <input type="hidden" asp-for="transactions.Transaction_date" value="@currentTimeWithOffsetString" />
     </div>
+<br>
     <div>
-        <button type="submit">Dodaj transakcję</button>
+    <input class="btn btn-primary" type="submit" value="Dodaj Transakcje">
     </div>
 </form>
-
+<br></br>
 <h2>Lista produktów</h2>
 
-<ul>
-    @foreach (var transaction in DataStore.Transactions)
-    {
-        <li>@transaction.Product - @transaction.Quantity</li>
-    }
-</ul>
+<table class="table table-striped-columns">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Klient</th>
+            <th>Produkt</th>
+            <th>Data</th>
+            <th>Ilość</th>
+            <th>Usuń</th>
+            <th>Edytuj</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transaction in Model.transactionExtra)
+        {
+            <tr>
+                <td>@transaction.Id</td>
+                <td>@transaction.Customer_name</td>
+                <td>@transaction.Product_name</td>
+                <td>@transaction.Transaction_date</td>
+                <td>@transaction.Quantity</td>
+                <td>
+                    <form method ="post" asp-page-handler="DeleteTransaction">
+                        <input type="hidden" name="Id" value="@transaction.Id" />
+                        <button type="submit" class="btn btn-danger">X</button>
+                    </form>
+               </td>
+                <td><button type="button" onclick="EditUser" class="btn btn-info">Edit</button></td>
+            </tr>
+
+        }
+    </tbody>
+</table>
