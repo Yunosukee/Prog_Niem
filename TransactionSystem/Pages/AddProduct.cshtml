@@ -10,11 +10,11 @@
     <label for="Price" class="form-label">Cena:</label>
     <input type="text" class="form-control" id="Price" asp-for="product.Price">
 
-    <br></br>
+    <br>
     <input class="btn btn-primary" type="submit" value="Dodaj Produkt">
 
 </form>
-<br></br>
+<br>
 <h2>Produkty</h2>
 
 <table class="table table-striped-columns">
@@ -40,8 +40,54 @@
                         <button type="submit" class="btn btn-danger">X</button>
                     </form>
                 </td>
-                <td><button type="button" onclick="EditUser" class="btn btn-info">Edit</button></td>
+                <td><button type="button" onclick="showEditRow(@products.Id)" class="btn btn-primary">Edit</button></td>
+            </tr>
+
+            <tr id="edit-row-@products.Id" class="edit-row" style="display: none">
+                <td colspan="3">
+                    <form method="post" asp-page-handler="EditProduct">
+                        <div>
+                            <label for="productWithIDs.Name" class="control-label">Nazwa:</label>
+                            <input asp-for="productWithIDs.Name" class="form-control" />
+                        </div>
+                        <div>
+                            <label for="productWithIDs.Price" class="control-label">Cena:</label>
+                            <input asp-for="productWithIDs.Price" class="form-control" />
+                        </div>
+                        <br>
+                        <div>
+                            <button class="btn btn-success" type="submit">Zapisz</button>
+                        </div>
+                        <div>
+                            <input type="hidden" asp-for="productWithIDs.Id" value="@products.Id" />
+                        </div>
+                    </form>
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+
+
+
+
+@section Scripts {
+    <script>
+        function showEditRow(id) {
+            var $editRow = $("#edit-row-" + id);
+
+            if ($editRow.is(":visible")) {
+                $editRow.hide();
+            }
+            else {
+                // Ukryj wszystkie wiersze edycji
+                $(".edit-row").hide();
+
+                // Pokaż wybrany wiersz edycji
+                $editRow.show();
+            }
+        }
+
+    </script>
+}

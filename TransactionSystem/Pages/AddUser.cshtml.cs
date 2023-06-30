@@ -12,6 +12,7 @@ namespace TransactionSystem.Pages.Admin
 
         [BindProperty]
         public Customer customer { get; set; }
+        public User user { get; set; }
 
         public List<User> users { get; set; }
 
@@ -50,6 +51,13 @@ namespace TransactionSystem.Pages.Admin
             // Implementacja logiki edycji produktu w C#
             // Wywo³anie odpowiedniej metody, np. z API lub serwisu
             await userController.DeleteUserWithId(number);
+            return RedirectToPage();
+        }
+
+        public async Task<IActionResult> OnPostEditUser(User user)
+        {
+            await userController.EditUser(user);
+
             return RedirectToPage();
         }
 

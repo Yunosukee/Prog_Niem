@@ -17,6 +17,7 @@ namespace TransactionSystem.Pages
         public string Username { get; set; }
         [BindProperty]
         public Transaction transactions { get; set; }
+        public TransactionWithID transactionsWithIDs { get; set; }
 
         public List<User> users { get; set; }
         public List<ProductWithID> products { get; set; }
@@ -29,7 +30,6 @@ namespace TransactionSystem.Pages
             users = await userController.GetUsers();
             transactionWithIDs = await transactionController.GetTransactions();
             transactionExtra = await transactionController.GetTransactionsExtra();
-
 
             // Sprawdzenie czy u¿ytkownik jest zalogowany
             if (HttpContext.Session.GetString("Username") == null)
@@ -55,10 +55,10 @@ namespace TransactionSystem.Pages
             return RedirectToPage("/Transactions");
         }
 
-        public async Task<IActionResult> OnPostDeleteTransaction(string Id)
+        public async Task<IActionResult> OnPostEditTransaction(TransactionWithID transactionsWithIDs)
         {
-            int number = int.Parse(Id);
-            await transactionController.DeleteTransaction(number);
+
+            await transactionController.EditTransaction(transactionsWithIDs);
 
             return RedirectToPage("/Transactions");
         }

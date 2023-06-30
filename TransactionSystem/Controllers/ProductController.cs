@@ -59,8 +59,29 @@ namespace TransactionSystem.Controllers
             HttpResponseMessage response = await httpClient.DeleteAsync(apiUrl);
         }
 
+        [HttpPut]
+        public async Task<IActionResult> EditProduct(ProductWithID productWithIDs)
+        {
+            HttpClient httpClient = new HttpClient();
+            string apiUrl = "http://czechulab.duckdns.org:32768/Product";
 
+            if (ModelState.IsValid)
+            {
+                HttpContent httpContent = JsonContent.Create(productWithIDs);
+                var response = await httpClient.PutAsync(apiUrl, httpContent);
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    var errorMessage = await response.Content.ReadAsStringAsync();
+                    ModelState.AddModelError(string.Empty, errorMessage);
+                }
+            }
 
+            return RedirectToPage("/Transactions");
 
+        }
     }
 }

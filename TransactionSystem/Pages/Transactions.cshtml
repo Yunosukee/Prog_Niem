@@ -3,6 +3,12 @@
 @{
     ViewData["Title"] = "Transakcje";
 }
+<head>
+    <link rel="stylesheet" href="~/css/style.css" />
+
+</head>
+
+
 
 <h1>Witaj, @Model.Username!</h1>
 
@@ -10,7 +16,7 @@
 
 <form method="post" asp-page-handler="AddTransaction">
 <div class="form-group">
-    <label asp-for="transactions.Product_id" class="control-label"></label>
+    <label class="control-label">Produkt:</label>
     <select asp-for="transactions.Product_id" class="form-control">
         <option value="">-- Wybierz --</option>
         @foreach (var obj in Model.products)
@@ -20,7 +26,7 @@
     </select>
 </div>
 <div class="form-group">
-    <label asp-for="transactions.Customer_id" class="control-label"></label>
+    <label class="control-label">Klient:</label>
     <select asp-for="transactions.Customer_id" class="form-control">
         <option value="">-- Wybierz --</option>
         @foreach (var obj in Model.users)
@@ -46,8 +52,12 @@
     <input class="btn btn-primary" type="submit" value="Dodaj Transakcje">
     </div>
 </form>
-<br></br>
+<br>
 <h2>Lista produktów</h2>
+
+
+
+
 
 <table class="table table-striped-columns">
     <thead>
@@ -76,9 +86,82 @@
                         <button type="submit" class="btn btn-danger">X</button>
                     </form>
                </td>
-                <td><button type="button" onclick="EditUser" class="btn btn-info">Edit</button></td>
+                <td>
+                    <button class="btn btn-primary" onclick="showEditRow(@transaction.Id)">Edit</button>
+                </td>
             </tr>
 
+            <tr id="edit-row-@transaction.Id" class="edit-row" style="display: none">
+                <td colspan="3">
+                    <form method="post" asp-page-handler="EditTransaction">
+                        <div class="form-group">
+                            <label class="control-label">Produkt:</label>
+                            <select asp-for="transactionsWithIDs.Product_id" class="form-control">
+                                <option value="">-- Wybierz --</option>
+                                @foreach (var obj in Model.products)
+                                {
+                                    <option value="@obj.Id">@obj.Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Klient:</label>
+                            <select asp-for="transactionsWithIDs.Customer_id" class="form-control">
+                                <option value="">-- Wybierz --</option>
+                                @foreach (var obj in Model.users)
+                                {
+                                    <option value="@obj.Id">@obj.Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div>
+                            <label for="transactions.Quantity" class="control-label">Ilość:</label>
+                            <input asp-for="transactionsWithIDs.Quantity" class="form-control" />
+                        </div>
+                        <br>
+                        <div>
+                            <button class="btn btn-success" type="submit">Zapisz</button>
+                        </div>
+                        <div>
+                            @{
+                                DateTime currentTimeEdit = DateTime.UtcNow;
+                                DateTime currentTimeWithOffsetEdit = currentTimeEdit.AddHours(2);
+                                string currentTimeWithOffsetStringEdit = currentTimeWithOffsetEdit.ToString("yyyy-MM-ddTHH:mm:ssZ");
+                            }
+                            <input type="hidden" asp-for="transactionsWithIDs.Transaction_date" value="@currentTimeWithOffsetStringEdit" />
+                        </div>
+                        <div>
+
+                            <input type="hidden" asp-for="transactionsWithIDs.Id" value="@transaction.Id" />
+                        </div>
+                    </form>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
+
+
+
+
+@section Scripts {
+    <script>
+        function showEditRow(id) 
+        {
+            var $editRow = $("#edit-row-" + id);
+
+            if ($editRow.is(":visible")) {
+                $editRow.hide();
+            } 
+            else 
+            {
+                // Ukryj wszystkie wiersze edycji
+                $(".edit-row").hide();
+
+                // Pokaż wybrany wiersz edycji
+                $editRow.show();
+            }
+        }
+
+    </script>
+}

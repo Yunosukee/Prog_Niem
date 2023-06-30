@@ -10,7 +10,7 @@ namespace TransactionSystem.Pages
 
         [BindProperty]
         public Product product { get; set; }
-
+        public ProductWithID productWithIDs { get; set; }
         public List<ProductWithID> products { get; set; }
 
         public async Task<IActionResult> OnGet()
@@ -29,17 +29,23 @@ namespace TransactionSystem.Pages
             }
         }
 
-
         public async Task<IActionResult> OnPostAddProduct(Product product)
         {
             await productController.AddProduct(product);
 
             return RedirectToPage("/AddProduct");
         }
+
         public async Task<IActionResult> OnPostDelete(string Id)
         {
             int number = int.Parse(Id);
             await productController.DeleteProductWithId(number);
+            return RedirectToPage();
+        }
+        public async Task<IActionResult> OnPostEditProduct(ProductWithID productWithIDs)
+        {
+            await productController.EditProduct(productWithIDs);
+
             return RedirectToPage();
         }
     }

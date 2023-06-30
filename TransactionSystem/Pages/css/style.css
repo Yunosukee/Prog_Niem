@@ -1,0 +1,14 @@
+﻿/* Styl dla wierszy edycji */
+.edit-row {
+    display: none; /* Ukryj wiersze edycji na początku */
+    padding: 10px;
+    background-color: #f5f5f5;
+}
+
+/* Styl dla przycisków edycji */
+.edit-button {
+    cursor: pointer;
+    font-weight: bold;
+    color: blue;
+    text-decoration: underline;
+}

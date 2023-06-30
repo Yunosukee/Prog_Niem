@@ -46,3 +46,11 @@ button.accept-policy {
   white-space: nowrap;
   line-height: 60px;
 }
+
+.edit-row {
+    display: none;
+}
+
+    .edit-row.show {
+        display: table-row;
+    }

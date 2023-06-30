@@ -1,6 +1,9 @@
 ﻿@page
 @model TransactionSystem.Pages.Admin.AddUserModel
+<head>
+    <link rel="stylesheet" href="~/css/style.css" />
 
+</head>
 <h2>Dodaj użytkownika</h2>
 
 
@@ -21,7 +24,7 @@
     <input class="btn btn-primary" type="submit" value="Dodaj Użytkownika">
 
 </form>
-<br></br>
+<br>
 <h2>Użytkownicy</h2>
 
 
@@ -52,9 +55,59 @@
                         <button type="submit" class="btn btn-danger">X</button>
                     </form>
                 </td>
-                <td><button type="button" onclick="EditUser" class="btn btn-info">Edit</button></td>
+                <td><button type="button" onclick="showEditRow(@user.Id)" class="btn btn-primary">Edit</button></td>
+            </tr>
+
+            <tr id="edit-row-@user.Id" class="edit-row" style="display: none">
+                <td colspan="3">
+                    <form method="post" asp-page-handler="EditUser">
+                        <div>
+                            <label for="user.Name" class="control-label">Imię:</label>
+                            <input asp-for="user.Name" class="form-control" />
+                        </div>
+                        <div>
+                            <label for="user.Phone" class="control-label">Telefon:</label>
+                            <input asp-for="user.Phone" class="form-control" />
+                        </div>
+                        <div>
+                            <label for="user.Email" class="control-label">Email:</label>
+                            <input asp-for="user.Email" class="form-control" />
+                        </div>
+                        <div>
+                            <label for="user.Password" class="control-label">Hasło:</label>
+                            <input asp-for="user.Password" class="form-control" />
+                        </div>
+                        <br>
+                        <div>
+                            <button class="btn btn-success" type="submit">Zapisz</button>
+                        </div>
+                        <div>
+                            <input type="hidden" asp-for="user.Id" value="@user.Id" />
+                        </div>
+                    </form>
+                </td>
             </tr>
         }
     </tbody>
 </table>
 
+
+@section Scripts {
+    <script>
+        function showEditRow(id) {
+            var $editRow = $("#edit-row-" + id);
+
+            if ($editRow.is(":visible")) {
+                $editRow.hide();
+            }
+            else {
+                // Ukryj wszystkie wiersze edycji
+                $(".edit-row").hide();
+
+                // Pokaż wybrany wiersz edycji
+                $editRow.show();
+            }
+        }
+
+    </script>
+}
